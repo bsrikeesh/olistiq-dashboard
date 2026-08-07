@@ -18,13 +18,12 @@ def load_raw():
     sellers   = pd.read_csv(DATA_DIR / "olist_sellers_dataset.csv")
     reviews   = pd.read_csv(DATA_DIR / "olist_order_reviews_dataset.csv")
     payments  = pd.read_csv(DATA_DIR / "olist_order_payments_dataset.csv")
-    geo       = pd.read_csv(DATA_DIR / "olist_geolocation_dataset.csv")
     cat_trans = pd.read_csv(DATA_DIR / "product_category_name_translation.csv")
-    return orders, items, products, customers, sellers, reviews, payments, geo, cat_trans
+    return orders, items, products, customers, sellers, reviews, payments, cat_trans
 
 @st.cache_data
 def load_master():
-    orders, items, products, customers, sellers, reviews, payments, geo, cat_trans = load_raw()
+    orders, items, products, customers, sellers, reviews, payments, cat_trans = load_raw()
 
     products  = products.merge(cat_trans, on="product_category_name", how="left")
     pay_agg   = payments.groupby("order_id").agg(
